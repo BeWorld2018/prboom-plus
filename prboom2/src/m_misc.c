@@ -495,9 +495,13 @@ default_t defaults[] =
    RDRAW_MASKEDCOLUMNEDGE_SQUARE, RDRAW_MASKEDCOLUMNEDGE_SLOPED, def_int,ss_none},
 
   {"OpenGL settings",{NULL},{0},UL,UL,def_none,ss_none},
+#if __MORPHOS__
+  {"gl_compatibility", {&gl_compatibility},  {1},0,1,
+   def_bool,ss_stat},
+#else
   {"gl_compatibility", {&gl_compatibility},  {0},0,1,
    def_bool,ss_stat},
-
+#endif
   {"gl_arb_multitexture", {&gl_arb_multitexture_default}, {1},0,1,
    def_bool,ss_stat},
   {"gl_arb_texture_compression", {&gl_arb_texture_compression_default}, {1},0,1,
