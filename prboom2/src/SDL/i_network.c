@@ -42,7 +42,9 @@
 #include <stdlib.h>
 #include <errno.h>
 #ifdef HAVE_UNISTD_H
+#ifndef __MORPHOS__
 #include <unistd.h>
+#endif
 #endif
 #include <stdio.h>
 #include <fcntl.h>

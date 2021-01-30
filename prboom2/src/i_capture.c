@@ -328,6 +328,7 @@ typedef struct
 
 static int my_popen3 (pipeinfo_t *p)
 {
+#ifndef __MORPHOS__
   FILE *fin = NULL;
   FILE *fout = NULL;
   FILE *ferr = NULL;
@@ -419,6 +420,7 @@ static int my_popen3 (pipeinfo_t *p)
   close (child_herr);
 
   free (puser);
+#endif
   return 0;
 
 }
@@ -426,6 +428,7 @@ static int my_popen3 (pipeinfo_t *p)
 
 static void my_pclose3 (pipeinfo_t *p)
 {
+#ifndef __MORPHOS__
   puser_t *puser = (puser_t *) p->user;
 
   int s;
@@ -440,6 +443,7 @@ static void my_pclose3 (pipeinfo_t *p)
   waitpid (puser->pid, &s, 0);
 
   free (puser);
+#endif
 }
 
 

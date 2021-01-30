@@ -12,7 +12,7 @@ CFLAGS += -Wall -Wno-missing-field-initializers -Wwrite-strings -Wundef \
         -Wpointer-arith -Wno-unused -Wno-switch -Wno-sign-compare -Wno-pointer-sign \
         -ffast-math
 CFLAGS += $(shell sdl2-config --cflags)
-CXXFLAGS = -O2 -noixemul -DHAVE_CONFIG_H -DUSE_EXPERIMENTAL_MUSIC
+CXXFLAGS = -O2 -noixemul -DHAVE_CONFIG_H -DUSE_EXPERIMENTAL_MUSIC -DSCREENSHOT_DIR=
 
 LDLIBS = -lSDL2_mixer -lSDL2_image  $(shell sdl2-config --libs) -lglu
 LDLIBS +=  -lz_shared

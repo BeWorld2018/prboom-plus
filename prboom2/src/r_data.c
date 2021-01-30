@@ -434,10 +434,15 @@ void R_InitTranMap(int progress)
         unsigned char playpal[256*3];
       } cache;
       FILE *cachefp;
-
+#ifdef __MORPHOS__
+      fnlen = doom_snprintf(NULL, 0, "%stranmap.dat", I_DoomExeDir());
+      fname = malloc(fnlen+1);
+      doom_snprintf(fname, fnlen+1, "%stranmap.dat", I_DoomExeDir());
+#else
       fnlen = doom_snprintf(NULL, 0, "%s/tranmap.dat", I_DoomExeDir());
       fname = malloc(fnlen+1);
       doom_snprintf(fname, fnlen+1, "%s/tranmap.dat", I_DoomExeDir());
+#endif
       cachefp = fopen(fname, "rb");
 
       main_tranmap = my_tranmap = Z_Malloc(256*256, PU_STATIC, 0);  // killough 4/11/98

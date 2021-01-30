@@ -38,7 +38,9 @@
  #include "SDL_net.h"
  #define UDP_SOCKET UDPsocket
  #define UDP_PACKET UDPpacket
+#ifndef __MORPHOS__
  #define AF_INET
+#endif
  #define UDP_CHANNEL int
  extern UDP_SOCKET udp_socket;
 #else

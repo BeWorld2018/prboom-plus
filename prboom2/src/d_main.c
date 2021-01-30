@@ -1078,11 +1078,19 @@ static void FindResponseFile (void)
         // proff 04/05/2000: Added for searching responsefile
         if (size < 0)
         {
+#ifdef __MORPHOS__
+          size_t fnlen = doom_snprintf(NULL, 0, "%s%s",
+                                       I_DoomExeDir(), &myargv[i][1]);
+          fname = realloc(fname, fnlen+4+1);
+          doom_snprintf(fname, fnlen+1, "%s%s",
+                        I_DoomExeDir(), &myargv[i][1]);
+#else
           size_t fnlen = doom_snprintf(NULL, 0, "%s/%s",
                                        I_DoomExeDir(), &myargv[i][1]);
           fname = realloc(fname, fnlen+4+1);
           doom_snprintf(fname, fnlen+1, "%s/%s",
                         I_DoomExeDir(), &myargv[i][1]);
+#endif
           AddDefaultExtension(fname,".rsp");
 	  size = M_ReadFile(fname, &file);
         }

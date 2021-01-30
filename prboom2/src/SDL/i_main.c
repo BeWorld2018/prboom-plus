@@ -77,6 +77,11 @@ typedef BOOL (WINAPI *SetAffinityFunc)(HANDLE hProcess, DWORD mask);
 
 #include "e6y.h"
 
+#ifdef __MORPHOS__
+unsigned long __stack = 1000000;
+__attribute__ ((section(".text"))) UBYTE VString[] = "$VER: " PACKAGE_STRING " (29-01-2021) port by BeWorld\r\n";
+#endif
+
 /* Most of the following has been rewritten by Lee Killough
  *
  * I_GetTime

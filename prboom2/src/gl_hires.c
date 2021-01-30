@@ -959,7 +959,11 @@ int gld_HiRes_BuildTables(void)
 
     if (gl_hires_24bit_colormap)
     {
+#ifdef __MORPHOS__
+      doom_snprintf(fname, sizeof(fname), "%s"RGB2PAL_NAME".dat", I_DoomExeDir());
+#else
       doom_snprintf(fname, sizeof(fname), "%s/"RGB2PAL_NAME".dat", I_DoomExeDir());
+#endif
       RGB2PAL_fp = fopen(fname, "wb");
       ok = RGB2PAL_fp != NULL;
     }

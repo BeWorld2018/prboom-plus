@@ -466,8 +466,11 @@ char* I_FindFileInternal(const char* wfname, const char* ext, dboolean isStatic)
     const char *env; // environment variable
     const char *(*func)(void); // for I_DoomExeDir
   } search0[] = {
+#ifndef __MORPHOS__  
     {NULL, NULL, NULL, I_DoomExeDir}, // config directory
+#endif
     {NULL}, // current working directory
+#ifndef __MORPHOS__  
     {NULL, NULL, "DOOMWADDIR"}, // run-time $DOOMWADDIR
     {DOOMWADDIR}, // build-time configured DOOMWADDIR
     {NULL, "doom", "HOME"}, // ~/doom
@@ -476,6 +479,7 @@ char* I_FindFileInternal(const char* wfname, const char* ext, dboolean isStatic)
     {"/usr/share/games/doom"},
     {"/usr/local/share/doom"},
     {"/usr/share/doom"},
+#endif
   }, *search;
 
   static size_t num_search;
@@ -499,6 +503,7 @@ char* I_FindFileInternal(const char* wfname, const char* ext, dboolean isStatic)
     memcpy(search, search0, num_search * sizeof(*search));
 
     // add each directory from the $DOOMWADPATH environment variable
+#ifndef __MORPHOS__
     if ((dwp = getenv("DOOMWADPATH")))
     {
       char *left, *ptr, *dup_dwp;
@@ -533,6 +538,7 @@ char* I_FindFileInternal(const char* wfname, const char* ext, dboolean isStatic)
 
       free(dup_dwp);
     }
+#endif
   }
 
   /* Precalculate a length we will need in the loop */

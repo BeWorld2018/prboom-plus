@@ -435,7 +435,10 @@ default_t defaults[] =
 #ifdef _WIN32
   {"snd_midiplayer",{NULL, &snd_midiplayer},{0,"fluidsynth"},UL,UL,def_str,ss_none},
   {"snd_soundfont",{NULL, &snd_soundfont},{0,"TimGM6mb.sf2"},UL,UL,def_str,ss_none}, // soundfont name for synths that support it
-#else
+#elif __MORPHOS__
+  {"snd_midiplayer",{NULL, &snd_midiplayer},{0,"sdl"},UL,UL,def_str,ss_none},
+  {"snd_soundfont",{NULL, &snd_soundfont},{0,"default-GM.sf3"},UL,UL,def_str,ss_none}, // soundfont name for synths that support it
+#else 
   {"snd_midiplayer",{NULL, &snd_midiplayer},{0,"sdl"},UL,UL,def_str,ss_none},
   {"snd_soundfont",{NULL, &snd_soundfont},{0,"/usr/share/sounds/sf3/default-GM.sf3"},UL,UL,def_str,ss_none}, // soundfont name for synths that support it
 #endif
@@ -464,8 +467,12 @@ default_t defaults[] =
    def_int,ss_none}, // set percentage of foreground/background translucency mix
   {"screenblocks",{&screenblocks},{10},3,11,  // killough 2/21/98: default to 10
    def_int,ss_none},
-  {"usegamma",{&usegamma},{0},0,4, //jff 3/6/98 fix erroneous upper limit in range
+ #if __MORPHOS__
+  {"usegamma",{&usegamma},{2},0,4, //jff 3/6/98 fix erroneous upper limit in range
    def_int,ss_none}, // gamma correction level // killough 1/18/98
+#else
+  {"usegamma",{&usegamma},{0},0,4, //jff 3/6/98 fix erroneous upper limit in range
+#endif
   {"uncapped_framerate", {&movement_smooth_default},  {1},0,1,
    def_bool,ss_stat},
   {"test_interpolation_method", {&interpolation_method},  {0},0,1,
@@ -1549,9 +1556,15 @@ void M_LoadDefaults (void)
   {
     const char* exedir = I_DoomExeDir();
     /* get config file from same directory as executable */
+#ifdef __MORPHOS__
+    int len = doom_snprintf(NULL, 0, "%s" BOOM_CFG, exedir);
+    defaultfile = malloc(len+1);
+    doom_snprintf(defaultfile, len+1, "%s" BOOM_CFG, exedir);   
+#else
     int len = doom_snprintf(NULL, 0, "%s/" BOOM_CFG, exedir);
     defaultfile = malloc(len+1);
     doom_snprintf(defaultfile, len+1, "%s/" BOOM_CFG, exedir);
+#endif
   }
 
   lprintf (LO_CONFIRM, " default file: %s\n",defaultfile);

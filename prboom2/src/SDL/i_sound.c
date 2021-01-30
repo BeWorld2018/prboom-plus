@@ -37,7 +37,9 @@
 #endif
 #include <math.h>
 #ifdef HAVE_UNISTD_H
+#ifndef __MORPHOS__
 #include <unistd.h>
+#endif
 #endif
 #ifdef HAVE_LIBSDL2_MIXER
 #define HAVE_MIXER
@@ -820,8 +822,10 @@ void I_ShutdownMusic(void)
     {
       name = (char*)malloc(strlen(music_tmp) + strlen(music_tmp_ext[i]) + 1);
       sprintf(name, "%s%s", music_tmp, music_tmp_ext[i]);
+	#ifndef __MORPHOS__
       if (!unlink(name))
         lprintf(LO_DEBUG, "I_ShutdownMusic: removed %s\n", name);
+	  #endif
       free(name);
     }
     free(music_tmp);
@@ -839,6 +843,9 @@ void I_InitMusic(void)
   }
 #ifdef HAVE_MIXER
   if (!music_tmp) {
+#ifdef __MORPHOS__ 
+	music_tmp = strdup("PROGDIR:doom.tmp");
+#else
 #ifndef _WIN32
     music_tmp = strdup("/tmp/"PACKAGE_TARNAME"-music-XXXXXX");
     {
@@ -851,6 +858,7 @@ void I_InitMusic(void)
     }
 #else /* !_WIN32 */
     music_tmp = strdup("doom.tmp");
+#endif
 #endif
     atexit(I_ShutdownMusic);
   }
